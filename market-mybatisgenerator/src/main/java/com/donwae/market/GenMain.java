@@ -21,7 +21,6 @@ import java.util.List;
 public class GenMain {
     public static void main(String[] args) {
         List<String> warnings = new ArrayList<String>();
-        boolean overwrite = true;
         //如果这里出现空指针，直接写绝对路径即可。
         String genCfg = "/generatorConfig.xml";
         File configFile = new File(GenMain.class.getResource(genCfg).getFile());
@@ -34,15 +33,19 @@ public class GenMain {
         } catch (XMLParserException e) {
             e.printStackTrace();
         }
-        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        DefaultShellCallback callback = new DefaultShellCallback(true);
         MyBatisGenerator myBatisGenerator = null;
         try {
-            myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+            if (config != null) {
+                myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+            }
         } catch (InvalidConfigurationException e) {
             e.printStackTrace();
         }
         try {
-            myBatisGenerator.generate(null);
+            if (myBatisGenerator != null) {
+                myBatisGenerator.generate(null);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
