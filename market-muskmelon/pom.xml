@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>donwae-market-dependencies</artifactId>
+		<groupId>com.donwae.market</groupId>
+		<version>1.0.0.RELEASE</version>
+		<relativePath>../market-dependencies/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>market-muskmelon</artifactId>
+	<packaging>jar</packaging>
+
+	<name>market-muskmelon</name>
+	<description>Integrated Executable Project for Donwae Market</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.donwae.market</groupId>
+			<artifactId>market-core</artifactId>
+			<version>${donwae.market.version}</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.donwae.market</groupId>-->
+			<!--<artifactId>market-shiro</artifactId>-->
+			<!--<version>${donwae.market.version}</version>-->
+		<!--</dependency>-->
+	</dependencies>
+
+</project>
