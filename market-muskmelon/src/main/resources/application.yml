@@ -12,18 +12,21 @@ spring:
   output:
       ansi:
         enabled: detect
-
+  mvc:
+    view:
+      prefix: /page/
+      suffix: .html
 #=====   mybatis settings   =====#
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.donwae.market.entity
 
-#=====   log settings   =====#
-#输出日志到文件
-logging:
-  file: /Users/goldwindzty/Logs/muskmelon/log-info.log
-  pattern:
-    level: com.donwae.market.*=debug
+##=====   log settings   =====#
+##输出日志到文件
+#logging:
+#  file: /Users/goldwindzty/Logs/muskmelon/log-info.log
+#  pattern:
+#    level: com.donwae.market.*=debug
 
 eureka:
   client:
