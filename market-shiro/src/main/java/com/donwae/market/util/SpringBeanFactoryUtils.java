@@ -1,4 +1,4 @@
-package com.donwae.market.utils;
+package com.donwae.market.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @auther Jeremy
  * 2018/11/13 上午10:27
  */
-//@Component
+@Component
 public class SpringBeanFactoryUtils implements ApplicationContextAware {
 
     private static ApplicationContext context = null;

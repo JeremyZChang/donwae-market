@@ -3,6 +3,8 @@ package com.donwae.market.dao;
 import com.donwae.market.entity.RolePermission;
 import com.donwae.market.entity.RolePermissionKey;
 
+import java.util.List;
+
 public interface RolePermissionMapper {
     int deleteByPrimaryKey(RolePermissionKey key);
 
@@ -15,4 +17,6 @@ public interface RolePermissionMapper {
     int updateByPrimaryKeySelective(RolePermission record);
 
     int updateByPrimaryKey(RolePermission record);
+
+    List<RolePermission> selectByRoleId(String roleId);
 }

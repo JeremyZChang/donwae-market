@@ -68,4 +68,10 @@
     where user_id = #{userId,jdbcType=VARCHAR}
       and role_id = #{roleId,jdbcType=VARCHAR}
   </update>
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user_role
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>
