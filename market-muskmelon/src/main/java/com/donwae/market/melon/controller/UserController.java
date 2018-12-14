@@ -2,6 +2,8 @@ package com.donwae.market.melon.controller;
 
 import com.donwae.market.entity.User;
 import com.donwae.market.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserService userService;
