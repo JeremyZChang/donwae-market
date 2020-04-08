@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: batch
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/BatchTask?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: donwae,1234
+    schema: classpath:/org/springframework/batch/core/schema-mysql.sql
+  batch:
+    initialize-schema: always
