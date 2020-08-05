@@ -16,7 +16,7 @@
     <logger name="com.apache.ibatis" level="TRACE" />
 	<logger name="com.goldwind" level="debug" additivity="true"></logger>
 	<root>
-		<level value="INFO" />
+		<level value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 	</root>
 

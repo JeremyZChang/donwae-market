@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <bpmn2:process id="ProcessCaiLiao" name="材料需求" isExecutable="true">
+        <bpmn2:startEvent id="StartEvent_1">
+            <bpmn2:outgoing>Flow_1xdf8sj</bpmn2:outgoing>
+        </bpmn2:startEvent>
+        <bpmn2:userTask id="Activity_1k9gazk" name="材料需求" camunda:assignee="${needUser}">
+            <bpmn2:extensionElements>
+                <camunda:executionListener delegateExpression="${signalService}" event="end" />
+            </bpmn2:extensionElements>
+            <bpmn2:incoming>Flow_1xdf8sj</bpmn2:incoming>
+            <bpmn2:outgoing>Flow_06gipqk</bpmn2:outgoing>
+        </bpmn2:userTask>
+        <bpmn2:endEvent id="Event_0h1jvny">
+            <bpmn2:incoming>Flow_06gipqk</bpmn2:incoming>
+        </bpmn2:endEvent>
+        <bpmn2:sequenceFlow id="Flow_1xdf8sj" sourceRef="StartEvent_1" targetRef="Activity_1k9gazk" />
+        <bpmn2:sequenceFlow id="Flow_06gipqk" sourceRef="Activity_1k9gazk" targetRef="Event_0h1jvny" />
+    </bpmn2:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ProcessCaiLiao">
+            <bpmndi:BPMNEdge id="Flow_06gipqk_di" bpmnElement="Flow_06gipqk">
+                <di:waypoint x="378" y="264" />
+                <di:waypoint x="462" y="264" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_1xdf8sj_di" bpmnElement="Flow_1xdf8sj">
+                <di:waypoint x="280" y="264" />
+                <di:waypoint x="330" y="264" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+                <dc:Bounds x="232" y="240" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_1cpvo7e_di" bpmnElement="Activity_1k9gazk">
+                <dc:Bounds x="330" y="240" width="48" height="48" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_0h1jvny_di" bpmnElement="Event_0h1jvny">
+                <dc:Bounds x="462" y="246" width="36" height="36" />
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

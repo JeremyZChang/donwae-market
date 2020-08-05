@@ -1,13 +1,11 @@
 package com.donwae.market.activiti.controller;
 
+import com.donwae.market.activiti.entity.DiagramXml;
 import com.donwae.market.activiti.entity.Response;
 import com.donwae.market.activiti.model.DeployModel;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.donwae.market.activiti.repository.DiagramDao;
+import com.donwae.market.activiti.service.ProcessLifeService;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,70 +19,52 @@ import java.util.Map;
  * 2020/5/30 下午5:25
  */
 @Slf4j
-@RequestMapping("/deploy")
+@RequestMapping("/life")
 @RestController
 public class ProcessLifeController {
 
     @Autowired
-    private ProcessEngine processEngine;
+    private ProcessLifeService processLifeService;
+
+    @Autowired
+    private DiagramDao diagramDao;
 
     //部署流程资源 部署单个
-    @PostMapping("/single")
-    public Response deploy(@RequestBody DeployModel model){
-        Deployment deployment = processEngine.getRepositoryService()//获取流程定义和部署对象相关的Service
-                .createDeployment()//创建部署对象
-                .name(model.getName())//声明流程的名称
-                .addClasspathResource(model.getBpmnPath())//加载资源文件，一次只能加载一个文件 "processes/serviceTask.bpmn20.xml"
-                .addClasspathResource(model.getPicPath())//"processes/serviceTask.png
-                .deploy();//完成部署
-
-        Map<String, Object> res = Maps.newHashMap();
-        res.put("部署ID", deployment.getId());
-        res.put("部署时间", deployment.getDeploymentTime());
+    @PostMapping("/deploy/file")
+    public Response deploySingleFile(@RequestBody DeployModel model){
+        Map<String, Object> res = processLifeService.singleDeployProcess(model);
         return Response.success(res);
     }
 
-    @GetMapping("/findProcessInstance")
+    @PostMapping
+    //部署流程资源【第三种方式：InputStream】
+    @RequestMapping("/deploy/xml")
+    public Response deployXml(@RequestBody DeployModel model) {
+        DiagramXml dx = new DiagramXml();
+        dx.setDiagramName(model.getResourceName());
+        dx.setDiagramXml(model.getXml());
+        diagramDao.addDiagramXml(dx);
+
+        Map<String, Object> res = processLifeService.deployXmlProcess(model);
+        return Response.success(res);
+    }
+
+    // 查询流程实例定义
+    @GetMapping("/instance")
     public Response findProcessInstance(){
-        List<ProcessDefinition> list = processEngine.getRepositoryService()//与流程定义和部署对象相关的Service
-                .createProcessDefinitionQuery()//创建一个流程定义查询
-                /*指定查询条件,where条件*/
-                //.deploymentId(deploymentId)//使用部署对象ID查询
-                //.processDefinitionId(processDefinitionId)//使用流程定义ID查询
-                //.processDefinitionKey(processDefinitionKey)//使用流程定义的KEY查询
-                //.processDefinitionNameLike(processDefinitionNameLike)//使用流程定义的名称模糊查询
+        List res = processLifeService.findProcessInstance();
+        return Response.success(res);
+    }
 
-                /*排序*/
-                .orderByProcessDefinitionVersion().asc()//按照版本的升序排列
-                //.orderByProcessDefinitionName().desc()//按照流程定义的名称降序排列
-
-                .list();//返回一个集合列表，封装流程定义
-        //.singleResult();//返回唯一结果集
-        //.count();//返回结果集数量
-        //.listPage(firstResult, maxResults)//分页查询
-        List<Map> resList = Lists.newArrayList();
-        if(list != null && list.size()>0){
-            for(ProcessDefinition processDefinition:list){
-                System.out.println("流程定义ID:"+processDefinition.getId());//流程定义的key+版本+随机生成数
-                System.out.println("流程定义名称:"+processDefinition.getName());//对应HelloWorld.bpmn文件中的name属性值
-                System.out.println("流程定义的key:"+processDefinition.getKey());//对应HelloWorld.bpmn文件中的id属性值
-                System.out.println("流程定义的版本:"+processDefinition.getVersion());//当流程定义的key值相同的情况下，版本升级，默认从1开始
-                System.out.println("资源名称bpmn文件:"+processDefinition.getResourceName());
-                System.out.println("资源名称png文件:"+processDefinition.getDiagramResourceName());
-                System.out.println("部署对象ID:"+processDefinition.getDeploymentId());
-                System.out.println("################################");
-                Map<String, Object> res = Maps.newHashMap();
-                res.put("流程ID", processDefinition.getId());
-                res.put("流程定义名称", processDefinition.getName());
-                res.put("流程定义的key", processDefinition.getKey());
-                res.put("流程定义的版本", processDefinition.getVersion());
-                res.put("资源名称bpmn文件", processDefinition.getResourceName());
-                res.put("资源名称png文件", processDefinition.getDiagramResourceName());
-                res.put("部署对象ID", processDefinition.getDeploymentId());
-                resList.add(res);
-            }
-        }
-        return Response.success(resList);
+    /**
+     * 卸载流程定义
+     * 2020/05/20 17:54:07
+     * @author Jeremy Zhang
+     */
+    @GetMapping("/remove/{id}")
+    public Response removeProcessInstance(@PathVariable("id") String id){
+        processLifeService.removeProcessInstance(id);
+        return Response.success("删除成功");
     }
 
 }

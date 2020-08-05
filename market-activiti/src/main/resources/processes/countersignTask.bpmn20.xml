@@ -25,15 +25,18 @@
     <userTask activiti:assignee="${publicity}" activiti:exclusive="true" id="hrApprove" name="人事部门审批">
       <extensionElements>
         <activiti:taskListener class="com.donwae.market.activiti.listener.MyTasksListener" event="create"/>
+        <activiti:taskListener class="com.donwae.market.activiti.listener.CompleteListener" event="complete"/>
       </extensionElements>
-      <multiInstanceLoopCharacteristics activiti:collection="${publicityList}" activiti:elementVariable="publicity" isSequential="true"/>
+        <multiInstanceLoopCharacteristics activiti:collection="${publicityList}" activiti:elementVariable="publicity"  isSequential="false">
+            <completionCondition>${yNo == nrOfInstances || nNo > 0 }</completionCondition>
+        </multiInstanceLoopCharacteristics>
     </userTask>
     <sequenceFlow id="_6" name="提交" sourceRef="decideSubmit" targetRef="hrApprove">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${submitType=="y" || submitType=="Y"}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_7" sourceRef="hrApprove" targetRef="decideChargeApprove"/>
     <sequenceFlow id="_2" sourceRef="decideChargeApprove" targetRef="submitForm">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${chargeApprove=="y" || chargeApprove=="Y"}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${chargeApprove=="n" || chargeApprove=="N"}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">

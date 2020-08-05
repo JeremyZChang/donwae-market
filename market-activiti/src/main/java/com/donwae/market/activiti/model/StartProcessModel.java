@@ -2,6 +2,8 @@ package com.donwae.market.activiti.model;
 
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * TODO
  *
@@ -9,12 +11,10 @@ import lombok.Data;
  * 2020/5/25 上午12:15
  */
 @Data
-public class DeployModel {
+public class StartProcessModel {
 
-    private String name;
+    private String id;
 
-    private String bpmnPath;
-
-    private String picPath;
+    private Map<String, Object> variables;
 
 }

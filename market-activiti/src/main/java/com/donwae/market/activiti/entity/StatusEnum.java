@@ -1,4 +1,4 @@
-package com.goldwind.sosp.base.common;
+package com.donwae.market.activiti.entity;
 
 public enum StatusEnum {
 

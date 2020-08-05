@@ -17,11 +17,11 @@
 	<description>Integrated Executable Project for Donwae Market</description>
 
 	<dependencies>
-		<!--<dependency>-->
-			<!--<groupId>com.donwae.market</groupId>-->
-			<!--<artifactId>market-core</artifactId>-->
-			<!--<version>${donwae.market.version}</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>com.donwae.market</groupId>
+			<artifactId>market-core</artifactId>
+			<version>${donwae.market.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.donwae.market</groupId>
 			<artifactId>market-shiro</artifactId>

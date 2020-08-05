@@ -1,32 +1,29 @@
 package com.donwae.batch.config;
 
-import com.donwae.batch.listener.MyChuckListener;
-import com.donwae.batch.listener.MyJobListener;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.ListItemReader;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 /**
- * 使用监听器示例
+ * Job传递参数示例
  * @author Jeremy Zhang
  * 2020/4/8 下午10:59
  */
 @Configuration
 @EnableBatchProcessing
-public class ListenerDemo {
+public class ParametersDemo implements StepExecutionListener {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -34,38 +31,35 @@ public class ListenerDemo {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
+    private Map<String, JobParameter> parameters;
+
     @Bean
-    public Job listenerJob(JobRepository repository, PlatformTransactionManager transactionManager){
-        return jobBuilderFactory.get("listenerJob")
-                .start(listenerStepOne())
-                .listener(new MyJobListener())
+    public Job parameterJob(){
+        return jobBuilderFactory.get("parameterJob")
+                .start(parameterStep())
                 .build();
     }
 
-    private Step listenerStepOne() {
-        return stepBuilderFactory.get("listenerStepOne")
-                .<String, String>chunk(2)
-                .faultTolerant()
-                .listener(new MyChuckListener())
-                .reader(read())
-                .writer(write())
+    // 可以使用Step级别的监听 对step传递数据
+    @Bean
+    public Step parameterStep() {
+        return stepBuilderFactory.get("parameterStep")
+                .listener(this)
+                .tasklet((contribution, chunkContext) -> {
+                    System.out.println(parameters.get("info"));
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
 
     }
 
-    @Bean
-    public ItemWriter<String> write() {
-        return items -> {
-            for(String item:items){
-                System.out.println(item);
-            }
-        };
+    @Override
+    public void beforeStep(StepExecution stepExecution) {
+        parameters = stepExecution.getJobParameters().getParameters();
     }
 
-    @Bean
-    public ItemReader<String> read() {
-
-        return new ListItemReader<>(Arrays.asList("Java","Test","Jone"));
+    @Override
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        return null;
     }
-
 }

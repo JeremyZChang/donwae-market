@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@EnableBatchProcessing // 在Application类种注解就不用在每个批处理中注解了
 public class MarketBatchApplication {
 
 	public static void main(String[] args) {

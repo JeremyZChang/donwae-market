@@ -1,10 +1,12 @@
 package com.donwae.market.activiti.service;
 
+
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+
 /**
- * TODO
- *
+ * ServiceTaskService
  * @author Jeremy Zhang
  * 2020/5/31 下午3:33
  */
-public interface ServiceTaskService {
+public interface ServiceTaskService extends JavaDelegate {
 }

@@ -14,26 +14,31 @@
 
     <properties>
         <donwae.market.version>1.0.0.RELEASE</donwae.market.version>
+        <spring-boot.version>Cairo-SR8</spring-boot.version>
+        <spring-cloud.version>Finchley.SR3</spring-cloud.version>
         <mysql.version>8.0.11</mysql.version>
         <mybatis.spring.version>1.3.0</mybatis.spring.version>
         <apache.shiro.version>1.2.5</apache.shiro.version>
         <apache.lucene.version>7.1.0</apache.lucene.version>
+        <activiti.version>6.0.0</activiti.version>
+        <google.guava.version>23.0</google.guava.version>
+        <cn.hutool.version>4.3.0</cn.hutool.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <!-- Spring -->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>1.5.17.RELEASE</version>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR5</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -47,7 +52,7 @@
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.spring.version}</version>
+                <version>1.3.2</version>
             </dependency>
             <!-- Apache Shiro -->
             <dependency>
@@ -94,6 +99,31 @@
                 <artifactId>ik-analysis-core</artifactId>
                 <version>1.0.0</version>
             </dependency>
+            <!-- Activiti 6.0 -->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter-basic</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+            <!-- Google guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
+            </dependency>
+
+            <!-- h2内存级数据库 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.3.176</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${cn.hutool.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -118,6 +148,7 @@
         <module>../market-core</module>
         <module>../market-muskmelon</module>
         <module>../market-lucene</module>
+        <module>../market-batch</module>
     </modules>
 
 </project>

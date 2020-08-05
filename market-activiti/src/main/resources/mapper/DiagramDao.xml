@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.donwae.market.activiti.repository.DiagramDao">
+    <resultMap id="diagramXmlMap" type="com.donwae.market.activiti.entity.DiagramXml">
+        <id property="id" column="id"/>
+        <result property="diagramName" column="diagram_xml"/>
+        <result property="diagramXml" column="diagram_name"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="diagramXmlMap">
+	  SELECT
+        dx.id,dx.diagram_xml, dx.diagram_name
+      FROM tb_diagram_xml dx
+      order by dx.id
+	</select>
+
+
+
+
+
+    <insert id="addDiagramXml" parameterType="com.donwae.market.activiti.entity.DiagramXml">
+        <selectKey resultType="int" order="AFTER" keyProperty="id" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO tb_diagram_xml(
+        diagram_xml,
+        diagram_name
+        )VALUES(
+        #{diagramXml, jdbcType=BLOB},
+        #{diagramName}
+        )
+	</insert>
+
+    <!--<update id="updateDetail" parameterType="com.goldwind.sosp.entity.User">-->
+      <!--UPDATE tb_user u-->
+        <!--<set>-->
+          <!--<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(passwd)">-->
+            <!--u.passwd = #{passwd},-->
+          <!--</if>-->
+          <!--<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(email)">-->
+            <!--u.email = #{email},-->
+          <!--</if>-->
+          <!--<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(mobile)">-->
+            <!--u.mobile = #{mobile},-->
+          <!--</if>-->
+        <!--</set>-->
+        <!--<where>-->
+          <!--u.user_id = #{userId}-->
+        <!--</where>-->
+    <!--</update>-->
+</mapper>
